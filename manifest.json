@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "NYT Connections Usability Companion",
+  "version": "1.0",
+  "description": "Adds the ability to organize connection cards into groups before commiting to a connection.",
+  "content_scripts": [
+    {
+      "js": ["scripts/drag.js"],
+      "matches": [
+        "https://www.nytimes.com/games/connections/*",
+        "https://www.nytimes.com/games/connections"
+      ]
+    }
+  ]
+}

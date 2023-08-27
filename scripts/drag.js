@@ -4,6 +4,8 @@
 const playButton = document.getElementById("play-button");
 const board = document.getElementById("board");
 
+const elementNewPositions = [];
+
 let observer = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
     let oldValue = mutation.oldValue;
@@ -31,6 +33,12 @@ let observer = new MutationObserver((mutations) => {
 
       // Add a listener to the elements that will start dragging them when the user clicks and drags them
       elements.forEach((element) => {
+
+        //if a new position for this element exists in the elementNewPositions array, then set the element to that position. Other classes needed are also stored in this array.
+        //the new position is stored at the id number of the element
+        if (elementNewPositions[element.id.split("-")[1]]) {
+          element.classList = elementNewPositions[element.id.split("-")[1]];
+        }
 
         element.addEventListener("pointerdown", function (event) {
 
@@ -170,6 +178,9 @@ let observer = new MutationObserver((mutations) => {
               }else if(newElement.classList.contains("selected")){
                 newElement.classList.remove("selected");
               }
+
+              elementNewPositions[element.id.split("-")[1]] = element.classList;
+              elementNewPositions[newElement.id.split("-")[1]] = newElement.classList;
 
               //set original row and col to the new row and col
               originalRow = newRow;

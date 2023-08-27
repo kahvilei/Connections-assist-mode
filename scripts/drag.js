@@ -11,6 +11,8 @@ let observer = new MutationObserver((mutations) => {
     if (oldValue !== newValue) {
       const elements = document.querySelectorAll("#board .item");
 
+      var dragging = true;
+
       const resetPosition = (e) => {
         let element = e.target;
         element.style.zIndex = 2;
@@ -27,19 +29,17 @@ let observer = new MutationObserver((mutations) => {
         --mouseDown;
       });
 
-      var dragging = false;
-
       // Add a listener to the elements that will start dragging them when the user clicks and drags them
       elements.forEach((element) => {
 
         element.addEventListener("pointerdown", function (event) {
 
           //get orginal col and row from the class list of the element
-          let originalCol = element.classList[1].split("-")[2];
-          let originalRow = element.classList[2].split("-")[2];
+          var originalCol = element.classList[1].split("-")[2];
+          var originalRow = element.classList[2].split("-")[2];
 
-          let newCol = originalCol;
-          let newRow = originalRow;
+          var newCol = originalCol;
+          var newRow = originalRow;
 
           let prevCol = originalCol;
           let prevRow = originalRow;
@@ -64,7 +64,7 @@ let observer = new MutationObserver((mutations) => {
           //set a small delay before the element is moved to allow the user to click on the element without moving it
 
           function onMouseMove(event) {
-            dragging = true;
+            
             moveAt(event.pageX, event.pageY);
             //get current vertical and horizontal position of the mouse on the board
             currentHoriPos =
@@ -111,7 +111,7 @@ let observer = new MutationObserver((mutations) => {
             }
 
             if (prevCol != newCol || prevRow != newRow) {
-              console.log("new row: " + newRow + " new col: " + newCol);
+   
               //remove the "shrunk" class from the element in the previous position if it is not already gone
               let prevElement = document.querySelector(
                 ".item-row-" + prevRow + ".item-col-" + prevCol
@@ -126,6 +126,7 @@ let observer = new MutationObserver((mutations) => {
           setTimeout(function () {
             //check if mouse is still down, if it is, then add the mousemove event listener
             if (mouseDown > 0) {
+        
             document.addEventListener("pointermove", onMouseMove);
             }
           }, 100);
@@ -136,12 +137,10 @@ let observer = new MutationObserver((mutations) => {
 
             //if the new row and col is not the same as the original row and col, then move the element to the new position
             if ((newRow != originalRow || newCol != originalCol) && dragging) {
+              console.log("new position: " + newRow + ", " + newCol + " old position: " + originalRow + ", " + originalCol); 
               //swap the element with the element in the new position
               let newElement = document.querySelector(
                 ".item-row-" + newRow + ".item-col-" + newCol
-              );
-              console.log(
-                newElement
               );
               //check if element or new element has the class "selected"
               let origSelected = false;
@@ -152,6 +151,7 @@ let observer = new MutationObserver((mutations) => {
               if (newElement.classList.contains("selected")) {
                 newSelected = true;
               }
+
               let temp = "item" + " item-row-" + newRow + " item-col-" + newCol;
               //set the new elements top and left transition to .2s to make the transition smooth
               newElement.style.transition = ".2s";
@@ -171,7 +171,9 @@ let observer = new MutationObserver((mutations) => {
                 newElement.classList.remove("selected");
               }
 
-              dragging = false;
+              //set original row and col to the new row and col
+              originalRow = newRow;
+              originalCol = newCol;
 
               //after the length of the transition, remove the transition
               setTimeout(function () {
@@ -179,6 +181,10 @@ let observer = new MutationObserver((mutations) => {
                 element.style.transition = null;
               }
               , 200);
+            }else if(!dragging){
+              console.log("not dragging");
+            }else{
+              console.log("same position");
             }
             //reset the position of the element to no longer be movable
             resetPosition(e);

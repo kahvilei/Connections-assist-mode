@@ -43,8 +43,8 @@ let observer = new MutationObserver((mutations) => {
         element.addEventListener("pointerdown", function (event) {
 
           //get orginal col and row from the class list of the element
-          var originalCol = element.classList[1].split("-")[2];
-          var originalRow = element.classList[2].split("-")[2];
+          var originalCol = element.classList[2].split("-")[2];
+          var originalRow = element.classList[1].split("-")[2];
 
           var newCol = originalCol;
           var newRow = originalRow;
@@ -110,6 +110,8 @@ let observer = new MutationObserver((mutations) => {
               newRow = 3;
             }
 
+            console.log("new position: " + newRow + ", " + newCol + " old position: " + originalRow + ", " + originalCol); 
+
             //select the element in the new position and add the "shrunk" class to it if it is not already there
             let newElement = document.querySelector(
               ".item-row-" + newRow + ".item-col-" + newCol
@@ -145,7 +147,7 @@ let observer = new MutationObserver((mutations) => {
 
             //if the new row and col is not the same as the original row and col, then move the element to the new position
             if ((newRow != originalRow || newCol != originalCol) && dragging) {
-              console.log("new position: " + newRow + ", " + newCol + " old position: " + originalRow + ", " + originalCol); 
+              
               //swap the element with the element in the new position
               let newElement = document.querySelector(
                 ".item-row-" + newRow + ".item-col-" + newCol
@@ -196,6 +198,7 @@ let observer = new MutationObserver((mutations) => {
               console.log("not dragging");
             }else{
               console.log("same position");
+              console.log("new position: " + newRow + ", " + newCol + " old position: " + originalRow + ", " + originalCol); 
             }
             //reset the position of the element to no longer be movable
             resetPosition(e);

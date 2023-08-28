@@ -10,6 +10,13 @@
         "https://www.nytimes.com/games/connections/*",
         "https://www.nytimes.com/games/connections"
       ]
-    }
+    },
+    {
+      "css": [ "styles/helper.css" ],
+      "matches": [
+        "https://www.nytimes.com/games/connections/*",
+        "https://www.nytimes.com/games/connections"
+      ]
+   }
   ]
 }
